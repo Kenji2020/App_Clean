@@ -52,7 +52,8 @@ export default function HomeScreen() {
                                             "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
                                     }}
                                 />
-                                <Text>{item.nickname}  HOLA QUE PASA CHAVALES</Text>
+                                <Text>{item.nickname}</Text>
+                                <Text>HOLA AHORA SÍ PRUEBA DEFINITIVA AAAAAA</Text>
                             </View>
                         </Card>
 
