@@ -13,16 +13,18 @@ import {
 import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"
 // Packages
 import {SharedElement} from 'react-navigation-shared-element';
-
+import {AntDesign} from "@expo/vector-icons";
 // Icons
 
 import {Feather, FontAwesome} from '@expo/vector-icons'
 import {auth, db} from '../firebase'
 import {Button} from 'react-native-elements'
+import {useNavigation} from "@react-navigation/native";
 
 const image = {uri: "https://reactjs.org/logo-og.png"};
 
 const BlogPage = (props) => {
+    const navigation = useNavigation()
     const initialState = {
         autor: "",
         id: "",
@@ -84,7 +86,7 @@ const BlogPage = (props) => {
 
     }, []);
     const deleteUser = async () => {
-        if (user.autor === auth.currentUser.email || auth.currentUser.email === "victor.ignacio.salgado2002@gmail.com") {
+        if (user.autor === auth.currentUser.email || auth.currentUser.email === "victor.ignacio.salgado2002@gmail.com" || auth.currentUser.email === "joakomask@gmail.com") {
             setLoading(true)
             const dbRef = db
                 .collection("Inventario")
@@ -128,8 +130,6 @@ const BlogPage = (props) => {
         const comments = doc.data().comments
         SetComments(comments)
     }
-
-    if (auth.currentUser.email === "victor.ignacio.salgado2002@gmail.com"){
         return (
             <View style={{flex: 1, backgroundColor: '#fff'}}>
                 <View>
@@ -140,269 +140,26 @@ const BlogPage = (props) => {
                             borderBottomLeftRadius: 10,
                             borderBottomRightRadius: 10
                         }} resizeMode="cover"/>
-                    </SharedElement>
-                    <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 14, left: 10}}>
-
-                        <View style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            paddingRight: 20
-                        }}>
-                            <View>
-                                <SharedElement>
-                                    <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}/>
-                                </SharedElement>
-                            </View>
-                        </View>
-                    </View>
-                </View>
-                <ScrollView style={{paddingHorizontal: 10, paddingTop: 14}}>
-                    <Button
-                        title="Borrar"
-                        onPress={deleteUser}
-                        buttonStyle={{
-                            backgroundColor: '#F44336',
-                            borderRadius: 10,
-                            marginTop: 14
-                        }}
-                    />
-                    <SharedElement style={{width: width - 30, marginBottom: 14}}>
-                        <Text style={{color: 'black', fontSize: 22, fontWeight: 'bold', lineHeight: 32}}>{user.name}</Text>
-                    </SharedElement>
-                    <Text style={{fontSize: 14, lineHeight: 28, textAlign: 'justify', opacity: 0.5}}>
-                        {user.description}
-                    </Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 14}}>
-                        <View style={{
-                            flex: 1,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            justifyContent: 'space-between',
-                            paddingRight: 20
-                        }}>
-                            <View>
-                                <SharedElement>
-                                    <Text style={{color: 'black', fontSize: 14, fontWeight: 'bold'}}/>
-                                </SharedElement>
-                                <SharedElement>
-                                    <Text style={{color: 'black', fontSize: 12,}}>{user.nickname}</Text>
-                                </SharedElement>
-
-
-                            </View>
-                        </View>
-                    </View>
-                    <View>
-                        <FontAwesome name="commenting" size={34} color="black" />
-
-                        <View>
-                            <TextInput
-                                onChangeText={(text) => setCommentValue(text)}
-                                placeholder="Comenta algo lindo..."
-                                ref={InputRef}
-                            />
-                            <Button title="Comentar" buttonStyle={{
-                                backgroundColor: '#00a680',
-
-                            }} onPress={() => AddToComments()} />
-                        </View>
-                        {function () {
-                            if (Comments.length > 0) {
-                                return Comments.map((comment, index) => {
-                                    return (
-                                        <ScrollView>
-                                            <View key={index} style={{
-                                                flexDirection: 'row',
-                                                alignItems: 'center',
-                                                marginTop: 14
-                                            }}>
-                                                <View style={{
-                                                    flex: 1,
-                                                    flexDirection: 'row',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'space-between',
-                                                    paddingRight: 20
-                                                }}>
-                                                    <View>
-                                                        <SharedElement>
-                                                            <Text style={{color: 'black', fontSize: 14, fontWeight: 'bold'}}/>
-                                                        </SharedElement>
-                                                        <SharedElement>
-                                                            <Text style={{color: 'black', fontSize: 12,}}>{comment.commentValue}</Text>
-                                                        </SharedElement>
-                                                    </View>
-                                                </View>
-                                            </View>
-                                        </ScrollView>
-                                    )
-                                })
-                            }else{
-                                return(
-                                    <View style={{
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        marginTop: 14
-                                    }}>
-                                        <View style={{
-                                            flex: 1,
-                                            flexDirection: 'row',
-                                            alignItems: 'center',
-                                            justifyContent: 'space-between',
-                                            paddingRight: 20
-                                        }}>
-                                            <View>
-                                                <SharedElement>
-                                                    <Text style={{color: 'black', fontSize: 14, fontWeight: 'bold'}}/>
-                                                </SharedElement>
-                                                <SharedElement>
-                                                    <Text style={{color: 'black', fontSize: 12,}}>No hay comentarios</Text>
-                                                </SharedElement>
-                                            </View>
-                                        </View>
-                                    </View>
-                                )
-                            }
-                        }()}
-                    </View>
-                </ScrollView>
-
-            </View>)
-    }else if (auth.currentUser.email === user.autor){
-        return (<View style={{flex: 1, backgroundColor: '#fff'}}>
-            <View>
-                <SharedElement>
-                    <Image source={require('../assets/icon.png')} style={{
-                        width: '100%',
-                        height: height - 450,
-                        borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: 10
-                    }} resizeMode="cover"/>
-                </SharedElement>
-                <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 14, left: 10}}>
-
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        paddingRight: 20
-                    }}>
-                        <View>
-                            <SharedElement>
-                                <Text style={{color: 'white', fontSize: 16, fontWeight: 'bold'}}/>
-                            </SharedElement>
-                        </View>
-                    </View>
-                </View>
-            </View>
-            <ScrollView style={{paddingHorizontal: 10, paddingTop: 14}}>
-                <Button
-                    title="Borrar"
-                    onPress={deleteUser}
-                    buttonStyle={{
-                        backgroundColor: '#F44336',
-                        borderRadius: 10,
-                        marginTop: 14
-                    }}
-                />
-                <SharedElement style={{width: width - 30, marginBottom: 14}}>
-                    <Text style={{color: 'black', fontSize: 22, fontWeight: 'bold', lineHeight: 32}}>{user.name}</Text>
-                </SharedElement>
-
-                <Text style={{fontSize: 14, lineHeight: 28, textAlign: 'justify', opacity: 0.5}}>
-                    {user.description}
-                </Text>
-                <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 14}}>
-                    <View style={{
-                        flex: 1,
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        paddingRight: 20
-                    }}>
-                        <View>
-                            <SharedElement>
-                                <Text style={{color: 'black', fontSize: 14, fontWeight: 'bold'}}/>
-                            </SharedElement>
-                            <SharedElement>
-                                <Text style={{color: 'black', fontSize: 12,}}>{user.nickname}</Text>
-                            </SharedElement>
-
-
-                        </View>
-                    </View>
-                </View>
-                <View>
-                    <FontAwesome name="commenting" size={34} color="black" />
-
-                    <View>
-                        <TextInput
-                            onChangeText={(text) => setCommentValue(text)}
-                            placeholder="Comenta algo lindo..."
-                            ref={InputRef}
+                        <Button
+                            title='Back'
+                            containerStyle={{marginRight:300}}
+                            onPress={()=>navigation.navigate('Home')}
                         />
-                        <Button title="Comentar" buttonStyle={{
-                            backgroundColor: '#00a680',
-
-                        }} onPress={() => AddToComments()} />
-                    </View>
-                    {function () {
-                        if (Comments.length > 0) {
-                            return Comments.map((comment, index) => {
-                                return (
-                                    <View key={index}>
-                                        <View style={styles.showComment_container}>
-                                            <Text >{comment.commentValue}</Text>
-                                        </View>
-                                    </View>
-                                )
-                            })
-                        }else{
-                            return(
-                                <View style={{
-                                    flexDirection: 'row',
-                                    alignItems: 'center',
+                        {auth.currentUser.email === user.autor || auth.currentUser.email === "victor.ignacio.salgado2002@gmail.com" || auth.currentUser.email === "joakomask@gmail.com"  ?
+                        <>
+                            <Button
+                                title="Borrar"
+                                onPress={deleteUser}
+                                buttonStyle={{
+                                    backgroundColor: '#F44336',
+                                    borderRadius: 10,
                                     marginTop: 14
-                                }}>
-                                    <View style={{
-                                        flex: 1,
-                                        flexDirection: 'row',
-                                        alignItems: 'center',
-                                        justifyContent: 'space-between',
-                                        paddingRight: 20
-                                    }}>
-                                        <View>
-                                            <SharedElement>
-                                                <Text style={{color: 'black', fontSize: 14, fontWeight: 'bold'}}/>
-                                            </SharedElement>
-                                            <SharedElement>
-                                                <Text style={{color: 'black', fontSize: 12,}}>No hay comentarios</Text>
-                                            </SharedElement>
-                                        </View>
-                                    </View>
-                                </View>
-                            )
+
+                                }}
+                            />
+                        </>
+                            :<Text></Text>
                         }
-                    }()}
-                </View>
-            </ScrollView>
-
-        </View>)
-    }else{
-        return(
-
-            <View style={{flex: 1, backgroundColor: '#fff'}}>
-
-                <View>
-                    <SharedElement>
-                        <Image source={require('../assets/icon.png')} style={{
-                            width: '100%',
-                            height: height - 450,
-                            borderBottomLeftRadius: 10,
-                            borderBottomRightRadius: 10
-                        }} resizeMode="cover"/>
                     </SharedElement>
                     <View style={{flexDirection: 'row', alignItems: 'center', position: 'absolute', bottom: 14, left: 10}}>
 
@@ -451,9 +208,11 @@ const BlogPage = (props) => {
                                             onChangeText={(text) => setCommentValue(text)}
                                             placeholder="Comenta algo lindo..."
                                             ref={InputRef}
+                                            style={{width:'100%'}}
                                         />
                                         <Button title="Comentar" buttonStyle={{
                                             backgroundColor: '#00a680',
+                                            width:'100%'
 
                                         }} onPress={() => AddToComments()} />
 
@@ -504,7 +263,7 @@ const BlogPage = (props) => {
 
             </View>
         )
-    }
+
 };
 
 export default BlogPage;

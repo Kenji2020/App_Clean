@@ -35,7 +35,7 @@ export default function HomeScreen() {
             {datos.map((item,index)=>{
                 return (
                     <View key={index}>
-                        <Card containerStyle={{marginLeft:30, marginRight:30, marginTop:10, height:300}} wrapperStyle={{}}>
+                        <Card containerStyle={{marginLeft:30, marginRight:30, marginTop:35, height:300}} wrapperStyle={{}}>
                             <Card.Title onPress={()=>{navigation.navigate('PostScreen',{userId: item.id})}}>{item.name}</Card.Title>
                             <Card.Divider />
                             <View

@@ -2,9 +2,9 @@
   "devToolsPort": 19002,
   "expoServerPort": 19000,
   "packagerPort": 19000,
-  "expoServerNgrokUrl": "https://8k-mkd.victor-salgado.appsaludmental.exp.direct",
-  "packagerNgrokUrl": "https://8k-mkd.victor-salgado.appsaludmental.exp.direct",
-  "ngrokPid": 41104,
+  "expoServerNgrokUrl": "https://8k-mkd.victor-salgado.app-clean.exp.direct",
+  "packagerNgrokUrl": "https://8k-mkd.victor-salgado.app-clean.exp.direct",
+  "ngrokPid": 19624,
   "packagerPid": null,
   "webpackServerPort": null
 }

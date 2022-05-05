@@ -8,7 +8,10 @@ import {useNavigation} from "@react-navigation/native";
 export default function RegisterScreen() {
     const [email, setEmail  ] = useState("");
     const [password, setPassword] = useState("");
+    const [passwordConfirm, setPasswordConfirm] = useState("");
     const navigation = useNavigation()
+    //CREAR CONFIRMACIÓN PARA VER QUE LAS 2 CONTRASEÑAS SEAN IGUALES BENJA
+    /*-----------------------------------------------------------------*/
     //Confirmar que existe la sesión en la base de datos
     const handleSignUp = () => {
         auth
@@ -26,10 +29,7 @@ export default function RegisterScreen() {
             }
         })
     }, [])
-    //Se redirecciona al usuario a la pantalla de registro
-    const handleRegister = () => {
-        navigation.goBack()
-    }
+
     return (
         <View>
             <Text style={styles.logoText}>Todo inicia y termina por ti</Text>
@@ -47,39 +47,23 @@ export default function RegisterScreen() {
                 leftIcon={<Icon name="lock" size={20} />}
                 placeholder="Contraseña"
             />
-            <View style={{flexDirection:"row"}}>
+            <Input
+                disabledInputStyle={{ background: "#ddd" }}
+                value={password}
+                onChangeText={(passwordConfirm) => setPasswordConfirm(passwordConfirm)}
+                leftIcon={<Icon name="lock" size={20} />}
+                placeholder="Confirma contraseña"
+            />
+            <View>
                 <Button
-                    buttonStyle={{ width: 180 }}
-                    containerStyle={{ margin: 5 }}
-                    disabledStyle={{
-                        borderWidth: 2,
-                        borderColor: "#00F"
+                    buttonStyle={{ width: '100%',
+                        backgroundColor: '#00a680',
+                        borderRadius: 10,
                     }}
-                    disabledTitleStyle={{ color: "#00F" }}
-                    linearGradientProps={null}
-                    iconContainerStyle={{ background: "#000" }}
-                    loadingProps={{ animating: true }}
-                    loadingStyle={{}}
-                    onPress={handleLogin}
-                    title="Iniciar sesión"
-                    titleStyle={{ marginHorizontal: 5 }}
-                />
-                <Button
-                    buttonStyle={{ width: 180 }}
-                    containerStyle={{ margin: 5 }}
-                    disabledStyle={{
-                        borderWidth: 2,
-                        borderColor: "#00F"
-                    }}
-                    disabledTitleStyle={{ color: "#00F" }}
-                    linearGradientProps={null}
-                    iconContainerStyle={{ background: "#000" }}
-                    loadingProps={{ animating: true }}
-                    loadingStyle={{}}
+                    title="Regístrate"
                     onPress={handleSignUp}
-                    title="Registrarse"
-                    titleStyle={{ marginHorizontal: 5 }}
                 />
+                <Text  style={{color:'#00a680', fontSize:15, marginTop:10, marginLeft:90, marginBottom:100}} onPress={()=>{navigation.navigate('LoginScreen')}}>¿Tienes cuenta? Inicia sesión</Text>
             </View>
         </View>
     );

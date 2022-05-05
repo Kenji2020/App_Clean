@@ -50,17 +50,14 @@ export default function LoginScreen() {
             </View>
             <View style={{backgroundColor:'#eeeeee'}}>
             <Button
-                buttonStyle={{ width: 180,
+                buttonStyle={{ width: '100%',
                     backgroundColor: '#00a680',
                     borderRadius: 10,
                 }}
-                containerStyle={{ margin: 100 }}
                 onPress={handleLogin}
                 title="Iniciar sesión"
             />
-                <View>
-                    <Text style={{color:'#00a680', fontSize:15, marginTop:10, marginLeft:90, marginBottom:10}}>¿No tienes cuenta?, Regístrate</Text>
-                </View>
+                <Text onPress={()=>{navigation.navigate('RegisterScreen')}} style={{colomper:'#00a680', fontSize:15, marginTop:10, marginLeft:90, marginBottom:100}}>¿No tienes cuenta?, Regístrate</Text>
             </View>
         </View>
     );
