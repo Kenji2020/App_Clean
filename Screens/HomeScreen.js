@@ -8,7 +8,7 @@ import {useNavigation} from "@react-navigation/native";
 export default function HomeScreen() {
     const [datos, setDatos] = useState([])
     const navigation = useNavigation()
-     //obtener datos de la base de datos
+     //popo
 
     const obtenerDatos = async () =>{
         const lista = []
