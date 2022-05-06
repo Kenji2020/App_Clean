@@ -1,76 +1,72 @@
 import React, {useEffect, useState} from "react";
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, Image, ScrollView, Dimensions} from 'react-native';
+import {StyleSheet, Text, View, Image, ScrollView, Dimensions, FlatList, KeyboardAvoidingView} from 'react-native';
 import { Input, Button,Card } from "react-native-elements";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import {db} from "../firebase";
 import {useNavigation} from "@react-navigation/native";
-export default function HomeScreen() {
+export default function HomeScreen({info}) {
     const [datos, setDatos] = useState([])
     const navigation = useNavigation()
-     //obtener datos de la base de datos
-
-    const obtenerDatos = async () =>{
-        const lista = []
-        db.collection('Inventario').get().then((querySnapshot)=>{
-            querySnapshot.forEach(doc=>{
-                //Hay que deconstruir el objeto
-                const {name, description, tags, nickname} = doc.data()
-                lista.push({
-                        id: doc.id, name, description, tags, nickname
-                    }
-                )
-            })
-            setDatos(lista)
-        })
-    }
+    //obtener datos de la base de datos
     console.log(datos)
     useEffect(()=>{
-        obtenerDatos()
+        db.collection('Inventario').onSnapshot(querySnapshot=>{
+            const lista = []
+            querySnapshot.docs.forEach(doc=>{
+                const {name, description, tags, nickname} = doc.data()
+                lista.push({
+                    id:doc.id,name,description,tags, nickname
+                })
+
+            })
+            setDatos([...lista])
+        })
+
     },[])
-    return (
-        <View>
-            <ScrollView showsVerticalScrollIndicator={false}
-            >
-            {datos.map((item,index)=>{
-                return (
-                    <View key={index}>
-                        <Card containerStyle={{marginLeft:30, marginRight:30, marginTop:35, height:300}} wrapperStyle={{}}>
-                            <Card.Title onPress={()=>{navigation.navigate('PostScreen',{userId: item.id})}}>{item.name}</Card.Title>
-                            <Card.Divider />
-                            <View
-                                style={{
-                                    position: "relative",
-                                    alignItems: "center"
-                                }}
-                            >
-                                <Image
-                                    style={{ width: "100%", height: 200 }}
-                                    resizeMode="contain"
-                                    source={{
-                                        uri:
-                                            "https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"
-                                    }}
-                                />
-                                <Text>{item.nickname}</Text>
-                                <Text>HOLA AHORA SÍ PRUEBA DEFINITIVA AAAAAA</Text>
+    const renderItem = ({item})=>{
+        return(
+            <View>
+
+                <ScrollView showsVerticalScrollIndicator={false}>
+                            <View style={{backgroundColor: '#e1e1e1'}}>
+                                <Card containerStyle={{marginLeft:30, marginRight:30, marginTop:35, height:300, marginBottom:35}} wrapperStyle={{}}>
+                                    <Card.Title onPress={()=>{navigation.navigate('PostScreen',{userId: item.id})}}>{item.name}</Card.Title>
+                                    <Card.Divider />
+                                    <View
+                                        style={{
+                                            position: "relative",
+                                            alignItems: "center"
+                                        }}
+                                    >
+                                        <Image
+                                            style={{ width: "100%", height: 200 }}
+                                            resizeMode="contain"
+                                            source={require("../assets/icon.png")}
+                                        />
+                                        <Text>{item.nickname}</Text>
+                                    </View>
+                                </Card>
+
                             </View>
-                        </Card>
 
-                    </View>
+                </ScrollView>
 
-                )
-            })}
-                    </ScrollView>
-        </View>
+            </View>
+        )
+    }
+    return (
+        <KeyboardAvoidingView behavior="padding" style={{marginBottom:40} }>
+            <View>
+
+           <FlatList data={datos} renderItem={renderItem} keyExtractor={x=>x.id} showsVerticalScrollIndicator={false}
+           />
+            </View>
+            <View style={{marginTop:-20}}>
+                <Button title='hola' onPress={()=>{navigation.navigate('CrearBlogScreen')}} />
+            </View>
+
+        </KeyboardAvoidingView>
     );
-}
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+}

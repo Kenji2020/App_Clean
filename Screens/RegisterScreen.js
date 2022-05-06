@@ -46,13 +46,15 @@ export default function RegisterScreen() {
                 onChangeText={(password) => setPassword(password)}
                 leftIcon={<Icon name="lock" size={20} />}
                 placeholder="Contraseña"
+                secureTextEntry={true}
             />
             <Input
                 disabledInputStyle={{ background: "#ddd" }}
-                value={password}
+                value={passwordConfirm}
                 onChangeText={(passwordConfirm) => setPasswordConfirm(passwordConfirm)}
                 leftIcon={<Icon name="lock" size={20} />}
                 placeholder="Confirma contraseña"
+                secureTextEntry={true}
             />
             <View>
                 <Button
