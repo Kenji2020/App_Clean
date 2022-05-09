@@ -30,7 +30,7 @@ const CrearBlogScreen = (props) => {
     };
     const [Comments, SetComments] = useState([]);
     const [commentValue, setCommentValue] = useState('');
-    const addToComments=()=>{
+    const addToComments = () => {
         let temp = {
             commentValue: commentValue,
             id: GenerateUniqueID(),
@@ -48,9 +48,8 @@ const CrearBlogScreen = (props) => {
     }
 
 
-
     const saveNewUser = async () => {
-        if (state.description === "" || state.name === "" ) {
+        if (state.description === "" || state.name === "") {
             alert("Por favor ingrese un descripción")
         } else {
             try {
@@ -64,21 +63,13 @@ const CrearBlogScreen = (props) => {
 
                 })
 
-
-                db.collection("Inventario").where("autor", "==", auth.currentUser.email).get().then(function (querySnapshot) {
-                    querySnapshot.forEach(function (doc) {
-                        console.log(doc.id, " => ", doc.data());
-                    });
-                });
             } catch (error) {
                 console.log(error)
             }
         }
     };
     const [image, setImage] = useState("");
-    const [uploading, setUploading] = useState(false);
     const pickImage = async () => {
-        // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
         });

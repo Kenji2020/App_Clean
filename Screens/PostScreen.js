@@ -185,7 +185,7 @@ const BlogPage = (props) => {
                     <Text style={{fontSize: 14, lineHeight: 28, textAlign: 'justify', opacity: 0.5}}>
                         {user.description}
                     </Text>
-                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 14}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
                         <View style={{
                             flex: 1,
                             flexDirection: 'row',

@@ -9,6 +9,11 @@ export default function HomeScreen({info}) {
     const [datos, setDatos] = useState([])
     const navigation = useNavigation()
     //obtener datos de la base de datos
+    const deviceWidth = Math.round(Dimensions.get('window').width);
+    const offset = 60;
+
+    const windowWidth = Dimensions.get('window').width;
+    const windowHeight = Dimensions.get('window').height;
     console.log(datos)
     useEffect(()=>{
         db.collection('Inventario').onSnapshot(querySnapshot=>{
@@ -26,11 +31,11 @@ export default function HomeScreen({info}) {
     },[])
     const renderItem = ({item})=>{
         return(
-            <View>
+            <View style={{backgroundColor: '#e1e1e1'}}>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                            <View style={{backgroundColor: '#e1e1e1'}}>
-                                <Card containerStyle={{marginLeft:30, marginRight:30, marginTop:35, height:300, marginBottom:35}} wrapperStyle={{}}>
+                            <View style={{backgroundColor: '#e1e1e1', marginTop:35, marginBottom:40}}>
+                                <Card containerStyle={{marginLeft:30, marginRight:30, height:300}} wrapperStyle={{}}>
                                     <Card.Title onPress={()=>{navigation.navigate('PostScreen',{userId: item.id})}}>{item.name}</Card.Title>
                                     <Card.Divider />
                                     <View
@@ -40,9 +45,15 @@ export default function HomeScreen({info}) {
                                         }}
                                     >
                                         <Image
+                                            imageStyle={{
+                                                width: '200px',
+                                                height: '200px',
+                                                resizeMode: 'cover'
+                                            }}
                                             style={{ width: "100%", height: 200 }}
                                             resizeMode="contain"
                                             source={require("../assets/icon.png")}
+                                            onPress={()=>{navigation.navigate('PostScreen',{userId: item.id})}}
                                         />
                                         <Text>{item.nickname}</Text>
                                     </View>
@@ -57,15 +68,14 @@ export default function HomeScreen({info}) {
     }
     return (
         <KeyboardAvoidingView behavior="padding" style={{marginBottom:40} }>
-            <View>
 
            <FlatList data={datos} renderItem={renderItem} keyExtractor={x=>x.id} showsVerticalScrollIndicator={false}
            />
-            </View>
-            <View style={{marginTop:-20}}>
-                <Button title='hola' onPress={()=>{navigation.navigate('CrearBlogScreen')}} />
-            </View>
+            <View style={{marginTop:-40, flexDirection: 'row', justifyContent: 'space-evenly'}} >
+                <Button  buttonStyle={{backgroundColor: '#00a680',}} title='Cuenta tu historia' onPress={()=>{navigation.navigate('CrearBlogScreen')}} />
+                <Button title="Área psicología" onPress={()=>{navigation.navigate('AreaPsicologia')}} buttonStyle={{backgroundColor: '#00a680',}}/>
 
+            </View>
         </KeyboardAvoidingView>
     );
 
