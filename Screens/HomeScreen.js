@@ -34,8 +34,8 @@ export default function HomeScreen({info}) {
             <View style={{backgroundColor: '#e1e1e1'}}>
 
                 <ScrollView showsVerticalScrollIndicator={false}>
-                            <View style={{backgroundColor: '#e1e1e1', marginTop:35, marginBottom:40}}>
-                                <Card containerStyle={{marginLeft:30, marginRight:30, height:300}} wrapperStyle={{}}>
+                            <View style={{backgroundColor: '#e1e1e1', marginTop:0, marginBottom:0}}>
+                                <Card containerStyle={{marginLeft:0, marginRight:0, marginTop:0, marginBottom:0, height:400, backgroundColor:'#f6f6f6'}}>
                                     <Card.Title onPress={()=>{navigation.navigate('PostScreen',{userId: item.id})}}>{item.name}</Card.Title>
                                     <Card.Divider />
                                     <View
@@ -45,17 +45,13 @@ export default function HomeScreen({info}) {
                                         }}
                                     >
                                         <Image
-                                            imageStyle={{
-                                                width: '200px',
-                                                height: '200px',
-                                                resizeMode: 'cover'
-                                            }}
-                                            style={{ width: "100%", height: 200 }}
+
+                                            style={{ width: "100%", height: 300 }}
                                             resizeMode="contain"
                                             source={require("../assets/icon.png")}
                                             onPress={()=>{navigation.navigate('PostScreen',{userId: item.id})}}
                                         />
-                                        <Text>{item.nickname}</Text>
+                                        <Text style={{marginTop:10}}>{item.nickname}</Text>
                                     </View>
                                 </Card>
 
@@ -67,14 +63,14 @@ export default function HomeScreen({info}) {
         )
     }
     return (
-        <KeyboardAvoidingView behavior="padding" style={{marginBottom:40} }>
+        <KeyboardAvoidingView behavior="padding" style={{marginTop:35}}>
 
            <FlatList data={datos} renderItem={renderItem} keyExtractor={x=>x.id} showsVerticalScrollIndicator={false}
+                     style={{marginTop:0, marginBottom:40}}
            />
-            <View style={{marginTop:-40, flexDirection: 'row', justifyContent: 'space-evenly'}} >
+            <View style={{marginTop:-40, flexDirection: 'row', justifyContent: 'space-evenly', flex:40}} >
                 <Button  buttonStyle={{backgroundColor: '#00a680',}} title='Cuenta tu historia' onPress={()=>{navigation.navigate('CrearBlogScreen')}} />
                 <Button title="Área psicología" onPress={()=>{navigation.navigate('AreaPsicologia')}} buttonStyle={{backgroundColor: '#00a680',}}/>
-
             </View>
         </KeyboardAvoidingView>
     );

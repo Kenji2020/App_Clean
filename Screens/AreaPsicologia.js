@@ -79,10 +79,10 @@ const styles = StyleSheet.create({
         marginTop: 25,
     },
     cardContainer: {
-        width: deviceWidth - offset,
+        width: deviceWidth - 10,
         backgroundColor: '#fff',
         height: 250,
-        borderRadius: radius,
+        borderRadius: 20,
 
         shadowColor: '#000',
         shadowOffset: {
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     },
     imageStyle: {
         height: 130,
-        width: deviceWidth - offset,
+        width: deviceWidth - 10,
         borderTopLeftRadius: radius,
         borderTopRightRadius: radius,
         opacity: 0.9,
