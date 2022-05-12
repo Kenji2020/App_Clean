@@ -1,26 +1,42 @@
-import React,{useState,useEffect} from 'react';
-import {View, Text, StyleSheet, Dimensions, Image, KeyboardAvoidingView, FlatList, ScrollView} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {View, Text, Dimensions, StyleSheet, Image, FlatList, KeyboardAvoidingView, ScrollView} from 'react-native';
+import {db, auth} from '../firebase'
+import {Button, Card} from "react-native-elements";
 import {useNavigation} from "@react-navigation/core";
-import {db} from '../firebase'
-import {Button, Card} from 'react-native-elements';
-const AreaPsicologia = ({ info }) => {
 
+const Articulos = ({ info }) => {
+    const [articulos, setArticulos] = useState([]);
     const navigation = useNavigation()
     const [blogsList, setBlogsList] = useState([]);
     useEffect(()=>{
-        db.collection('Psicólogos').onSnapshot(querySnapshot=>{
+        db.collection('Articulos').onSnapshot(querySnapshot=>{
             const lista = []
             querySnapshot.docs.forEach(doc=>{
-                const {name, description, tags,correo,image,numero,tipoDeConsulta} = doc.data()
+                const {name, description, tags, nickname} = doc.data()
                 lista.push({
-                    id:doc.id,name,description,tags,correo,image,numero,tipoDeConsulta
+                    id:doc.id,name,description,tags, nickname
                 })
+
             })
             setBlogsList([...lista])
         })
+
+    },[])
+    React.useEffect(()=>{
+        db.collection('correosPsicolgos').onSnapshot(querySnapshot=>{
+            const docs = [];
+            querySnapshot.forEach(doc=>{
+                docs.push({
+                    id: doc.id,
+                    ...doc.data(),
+
+                })
+            })
+            setArticulos([...docs]);
+        })
+
     },[])
     function renderItem ({item}) {
-        const image = {uri : item.image}
         return (
             <View style={{backgroundColor: '#e1e1e1'}}>
                 <ScrollView showsVerticalScrollIndicator={false}>
@@ -37,14 +53,10 @@ const AreaPsicologia = ({ info }) => {
                                 <Image
                                     style={{ width: 450, height: 200 }}
                                     resizeMode="contain"
-                                    source={image}
+                                    source={require('../assets/icon.png')}
                                 />
                                 <Text style={{marginTop:10}}>{item.nickname}</Text>
-                                <Text style={{marginTop:10}}>{item.tipoDeConsulta}</Text>
-                                <Text style={{marginTop:10}}>{item.numero}</Text>
-                                <Text style={{marginTop:10}}>{item.correo}</Text>
-                                <Text style={{marginTop:10,fontWeight: "bold"}} onPress={()=> navigation.navigate('DescripcionPsicologos',{userId: item.id})}>Leer más...</Text>
-
+                                <Text style={{marginTop:10}}>{item.tags}</Text>
                             </View>
                         </Card>
 
@@ -53,7 +65,6 @@ const AreaPsicologia = ({ info }) => {
                 </ScrollView>
 
             </View>
-
         );
     }
     return(
@@ -64,24 +75,45 @@ const AreaPsicologia = ({ info }) => {
 
             <View style={{padding: 30}}>
                 <FlatList
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
                     data={blogsList}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
-                    showsVerticalScrollIndicator={false}
                 />
-                <Button
-                    title="Artículos"
-                    buttonStyle={{
-                        backgroundColor: '#00ADC7',
-                    }}
-                    onPress={() => navigation.navigate('Articulos')}
-                />
+                <View>
+                    <View style={styles.fixToText}>
+                        {function(){
+                            if(articulos.length>0){
+                                console.log(articulos[0].correos)
+                                if(articulos[0].correos.includes(auth.currentUser.email)){
+                                    return(
+                                        <Button
+                                            title="Escribir artículo"
+                                            buttonStyle={{
+                                                backgroundColor: '#00ADC7',
+
+                                            }}
+                                            onPress={() => navigation.navigate('EscribirArticulo')}
+                                        />
+                                    )
+                                }
+                            }
+
+                        }()}
+
+
+                    </View>
+                </View>
 
             </View>
+
         </KeyboardAvoidingView>
     )
 
+
 }
+
 
 const deviceWidth = Math.round(Dimensions.get('window').width);
 const offset = 40;
@@ -92,11 +124,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 25,
     },
+    button: {
+        margin: 2,
+    },
+    fixToText: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    indicator: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
     cardContainer: {
-        width: deviceWidth - 10,
+        width: deviceWidth - offset,
         backgroundColor: '#fff',
-        height: 250,
-        borderRadius: 20,
+        height: 230,
+        borderRadius: radius,
+        marginBottom: 20,
 
         shadowColor: '#000',
         shadowOffset: {
@@ -105,11 +149,11 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.75,
         shadowRadius: 5,
-        elevation: 9,
+        elevation: 10,
     },
     imageStyle: {
         height: 130,
-        width: deviceWidth - 10,
+        width: deviceWidth - offset,
         borderTopLeftRadius: radius,
         borderTopRightRadius: radius,
         opacity: 0.9,
@@ -133,4 +177,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AreaPsicologia;
+export default Articulos;

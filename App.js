@@ -9,6 +9,8 @@ import AreaPsicologia from "./Screens/AreaPsicologia";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import CrearBlogScreen from "./Screens/CrearBlogScreen";
 import DescripcionPsicologos from "./Screens/DescripcionPsicologos";
+import Articulos from "./Screens/Articulos";
+import EscribirArticulo from "./Screens/EscribirArticulo";
 
 const Stack = createNativeStackNavigator();
 export default function App() {
@@ -23,6 +25,8 @@ export default function App() {
                 <Stack.Screen options={{headerShown: false}} name="CrearBlogScreen" component={CrearBlogScreen}/>
                 <Stack.Screen options={{headerShown: false}} name="AreaPsicologia" component={AreaPsicologia}/>
                 <Stack.Screen options={{headerShown: false}} name="DescripcionPsicologos" component={DescripcionPsicologos}/>
+                <Stack.Screen options={{headerShown: false}} name="Articulos" component={Articulos}/>
+                <Stack.Screen options={{headerShown: false}} name="EscribirArticulo" component={EscribirArticulo}/>
 
             </Stack.Navigator>
         </NavigationContainer>

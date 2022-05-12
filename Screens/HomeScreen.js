@@ -32,7 +32,6 @@ export default function HomeScreen({info}) {
     const renderItem = ({item})=>{
         return(
             <View style={{backgroundColor: '#e1e1e1'}}>
-
                 <ScrollView showsVerticalScrollIndicator={false}>
                             <View style={{backgroundColor: '#e1e1e1', marginTop:0, marginBottom:0}}>
                                 <Card containerStyle={{marginLeft:0, marginRight:0, marginTop:0, marginBottom:0, height:400, backgroundColor:'#f6f6f6'}}>
@@ -69,8 +68,8 @@ export default function HomeScreen({info}) {
                      style={{marginTop:0, marginBottom:40}}
            />
             <View style={{marginTop:-40, flexDirection: 'row', justifyContent: 'space-evenly', flex:40}} >
-                <Button  buttonStyle={{backgroundColor: '#00a680',}} title='Cuenta tu historia' onPress={()=>{navigation.navigate('CrearBlogScreen')}} />
-                <Button title="Área psicología" onPress={()=>{navigation.navigate('AreaPsicologia')}} buttonStyle={{backgroundColor: '#00a680',}}/>
+                <Button  buttonStyle={{backgroundColor: '#00ADC7'}} title='Cuenta tu historia' onPress={()=>{navigation.navigate('CrearBlogScreen')}} />
+                <Button title="Área psicología" onPress={()=>{navigation.navigate('AreaPsicologia')}} buttonStyle={{backgroundColor: '#00ADC7',}}/>
             </View>
         </KeyboardAvoidingView>
     );

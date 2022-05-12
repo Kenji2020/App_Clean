@@ -5,6 +5,7 @@ import {SharedElement} from 'react-navigation-shared-element';
 import {Feather} from '@expo/vector-icons'
 import {db} from '../firebase'
 import {useNavigation} from "@react-navigation/core";
+
 const ChatPsicologo = (props) => {
     const initialState = {
         autor: "",
@@ -16,9 +17,9 @@ const ChatPsicologo = (props) => {
         nickname: "",
         motivation: "",
         image: "",
-        correo:"",
-        numero:"",
-        tipoDeConsulta:"",
+        correo: "",
+        numero: "",
+        tipoDeConsulta: "",
     };
     const [user, setUser] = useState(initialState);
     const [loading, setLoading] = useState(true);
@@ -36,7 +37,7 @@ const ChatPsicologo = (props) => {
     const navigation = useNavigation()
     const {width, height} = Dimensions.get('window')
     const {data} = props.route.params;
-    const image = {uri : user.image}
+    const image = {uri: user.image}
     return (
         <View style={{flex: 1, backgroundColor: '#fff'}}>
             <View>
@@ -75,16 +76,17 @@ const ChatPsicologo = (props) => {
                     {user.motivation}
                 </Text>
                 <SharedElement>
-                    <Text style={{color: 'black', fontSize: 15,}}>{user.numero}</Text>
+                    <Text style={{color: 'black', fontSize: 15,marginTop:10}}>{user.numero}</Text>
                 </SharedElement>
                 <SharedElement>
-                    <Text style={{color: 'black', fontSize: 15,}}>{user.correo}</Text>
+                    <Text style={{color: 'black', fontSize: 15,marginTop:10}}>{user.correo}</Text>
                 </SharedElement>
 
                 <SharedElement>
-                    <Text style={{color: 'black', fontSize: 15,marginBottom:30}}>Tipo de consulta: {user.tipoDeConsulta}</Text>
+                    <Text style={{color: 'black', fontSize: 15, marginBottom: 30, marginTop:10}}>Tipo de
+                        consulta: {user.tipoDeConsulta}</Text>
                 </SharedElement>
-                <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 14, marginBottom:10}}>
+                <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 14, marginBottom: 10}}>
                     <View style={{
                         flex: 1,
                         flexDirection: 'row',

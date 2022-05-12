@@ -1,14 +1,13 @@
-import React, {useState, useRef} from "react";
-import {
-    View, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView, Text
-} from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import React, {useRef, useState} from 'react'
+import {View, Text, TextInput, KeyboardAvoidingView} from 'react-native'
+import styles from "./style";
+import {Button} from "react-native-elements";
 import {auth, db} from "../firebase";
-import {Button} from 'react-native-elements'
-import styles from './style'
+import {useNavigation} from "@react-navigation/core";
 import {arrayUnion, updateDoc} from "firebase/firestore";
-
-const CrearBlogScreen = (props) => {
+import * as ImagePicker from "expo-image-picker";
+const EscribirArticulo = () => {
+    const navigation = useNavigation();
     const initalState = {
         name: "", description: "", tags: [], nickname: "", comments: "",
     };
@@ -30,13 +29,13 @@ const CrearBlogScreen = (props) => {
     };
     const [Comments, SetComments] = useState([]);
     const [commentValue, setCommentValue] = useState('');
-    const addToComments = () => {
+    const addToComments=()=>{
         let temp = {
             commentValue: commentValue,
             id: GenerateUniqueID(),
             autor: auth.currentUser.email
         };
-        const ref = db.collection('Inventario').doc(props.route.params.userId);
+        const ref = db.collection('Articulos').doc(props.route.params.userId);
         updateDoc(ref, {
             comments: arrayUnion(temp)
         }).then(r => {
@@ -48,28 +47,36 @@ const CrearBlogScreen = (props) => {
     }
 
 
+
     const saveNewUser = async () => {
-        if (state.description === "" || state.name === "") {
+        if (state.description === "") {
             alert("Por favor ingrese un descripción")
         } else {
             try {
-                await db.collection("Inventario").add({
+                await db.collection("Articulos").add({
                     autor: auth.currentUser.email,
                     name: state.name,
                     description: state.description,
                     tags: state.tags,
                     nickname: state.nickname,
-                    comments: Comments
 
                 })
 
+
+                db.collection("Articulos").where("autor", "==", auth.currentUser.email).get().then(function (querySnapshot) {
+                    querySnapshot.forEach(function (doc) {
+                        console.log(doc.id, " => ", doc.data());
+                    });
+                });
             } catch (error) {
                 console.log(error)
             }
         }
     };
     const [image, setImage] = useState("");
+    const [uploading, setUploading] = useState(false);
     const pickImage = async () => {
+        // No permissions request is necessary for launching the image library
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
         });
@@ -91,12 +98,12 @@ const CrearBlogScreen = (props) => {
                         style={styles.loginFormTextInput}/>
                     <TextInput
                         onChangeText={(value) => handleChangeText(value, "nickname")}
-                        placeholder="Nickname"
+                        placeholder="Tu nombre y apellido"
                         placeholderColor="#c4c3cb"
                         style={styles.loginFormTextInput}/>
                     <TextInput
                         onChangeText={(value) => handleChangeText(value, "description")}
-                        placeholder="Cuéntanos tu historia" placeholderColor="#c4c3cb"
+                        placeholder="Escribe o pega la información aquí" placeholderColor="#c4c3cb"
                         style={styles.loginFormTextInput}
                         multiline={true}
                     />
@@ -113,15 +120,13 @@ const CrearBlogScreen = (props) => {
                         onPress={
                             () => {
                                 saveNewUser()
-                                props.navigation.navigate("Home")
+                                navigation.navigate("Articulos")
                             }
                         } title="Publicar"/>
 
                 </View>
             </View>
         </KeyboardAvoidingView>
-
-    );
-};
-
-export default CrearBlogScreen;
+    )
+}
+export default EscribirArticulo
